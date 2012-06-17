@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>hackernews-livereader</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+<script src="/nowjs/now.js"></script>
+
+
+<script>
+var urls={};
+var myurlsbase="http://links.popcornpirat.de/urls/create/?tags=11";
+$(document).ready(function(){
+$("#fetch").click(function(){now.fetchNew()});
+now.newLink=function(url, text, id){
+  if(urls[id])
+    return;
+  var container = $("<div>");
+  var newlink   = $('<a href="'+url+'" target="_blank">'+text+'</a>');
+  var markread  = $("<a>[mark as read]</a>");
+  var urllink   = $('<a href="'+myurlsbase+"&name="+encodeURIComponent(text)+"&url="+encodeURIComponent(url)+'" target="_blank">add to urlf00</a>');
+  var deletelink= function(){now.readLink(id);container.remove();};
+  newlink.click( deletelink);
+  markread.click(deletelink);
+  urllink.click(deletelink);
+  $("#links").prepend(container);
+  container.append(newlink).append("---").append(markread).append("-----").append(urllink);
+  urls[id]=container;
+};
+now.pushRead=function(id){
+  if(!urls[id])
+    return;
+  urls[id].remove();
+};
+now.canFetch=function(value){
+  value?$("#fetch").show():$("#fetch").hide();
+};
+
+if(nowready){
+  now.getOldUrls();
+}else{
+  now.ready(function(){now.getOldUrls();});
+}
+
+});
+
+var nowready=false;
+now.ready(function(){nowready=true;});
+</script>
+</head>
+<body>
+<div id = "fetch" >Fetch new links :)</div><hr/>
+<div id = "prefiltered" ></div>
+<hr>
+<div id = "links"></div>
+<br/><br/>
+</body>
+</html>
+
