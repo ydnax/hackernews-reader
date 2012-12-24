@@ -11,9 +11,9 @@ var everyone = nowjs.initialize(server);
 
 var doUrl    = require("./urllib.js").processUrl;
 var md5      = require("./tools.js").md5;
-var starturl = "http://news.ycombinator.net/best";
+var starturl = "http://news.ycombinator.com/best";
 var baseurl;
-var maxdepth = 8;//only 2 best pages
+var maxdepth = 8;//only 8 best pages
 var timeout  = 3000;//wait  between each page
 
 var dbpath    = "./db.json";
